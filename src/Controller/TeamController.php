@@ -12,7 +12,23 @@ final class TeamController extends AbstractController
     public function index(): Response
     {
         return $this->render('team/index.html.twig', [
-            'controller_name' => 'TeamController',
+
+        ]);
+    }
+
+    #[Route('/edition-employe/{id}', name: 'app_edit_employee')]
+    public function edit(): Response
+    {
+        return $this->render('team/index.html.twig', [
+
+        ]);
+    }
+
+    #[Route('/suppression-employe/{id}', name: 'app_delete_employee')]
+    public function delete(): Response
+    {
+        return $this->render('team/index.html.twig', [
+
         ]);
     }
 }
