@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Projet - {{ parent() }}{% endblock %}
+{% block title %}{{ project.name }} - {{ parent() }}{% endblock %}
 
-{% block body %}test{% endblock %}
+{% block body %}{{ project.name }} {% endblock %}
