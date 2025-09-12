@@ -22,26 +22,28 @@
             </thead>
             <tbody>
             {% for employee in employees %}
-                <td>
-                    <div class="employee-infos">
-                        <div class="employee-avatar">
-                            ND
+                <tr>
+                    <td>
+                        <div class="employee-infos">
+                            <div class="employee-avatar">
+                                ND
+                            </div>
+                            <div class="employee-coords">
+                                <strong>{{ employee.firstname }} {{ employee.lastname }}</strong>
+                                <span>{{ employee.email }}</span>
+                            </div>
                         </div>
-                        <div class="employee-coords">
-                            <strong>{{ employee.firstname }} {{ employee.lastname }}</strong>
-                            <span>{{ employee.email }}</span>
-                        </div>
-                    </div>
-                </td>
-                <td>{{ employee.contract.getLabel() }}</td>
-                <td>
-                    <a class="button button-edit-team" href="{{ path('app_edit_employee', {'id': employee.id}) }}">
-                        Éditer
-                    </a>
-                    <a class="delete-team" href="{{ path('app_delete_employee', {'id': employee.id}) }}">
-                        Supprimer
-                    </a>
-                </td>
+                    </td>
+                    <td>{{ employee.contract.getLabel() }}</td>
+                    <td>
+                        <a class="button button-edit-team" href="{{ path('app_edit_employee', {'id': employee.id}) }}">
+                            Éditer
+                        </a>
+                        <a class="delete-team" href="{{ path('app_delete_employee', {'id': employee.id}) }}">
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
             {% else %}
                 <tr><td>Aucun employé trouvé.</td></tr>
             {% endfor %}

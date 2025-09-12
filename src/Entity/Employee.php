@@ -6,6 +6,7 @@ use App\Enum\EmployeeContract;
 use App\Repository\EmployeeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EmployeeRepository::class)]
 class Employee
@@ -15,13 +16,16 @@ class Employee
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\NotBlank(message: "Le nom ne peut être vide.")]
     private ?string $firstname = null;
 
-    #[ORM\Column(length: 150)]
+    #[ORM\Column(type: 'string', length: 150)]
+    #[Assert\NotBlank(message: "Le prénom ne peut être vide.")]
     private ?string $lastname = null;
 
-    #[ORM\Column(length: 150)]
+    #[ORM\Column(type: 'string', length: 150)]
+    #[Assert\NotBlank(message: "L'email ne peut être vide.")]
     private ?string $email = null;
 
     #[ORM\Column(enumType: EmployeeContract::class)]
