@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\ProjectRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -12,7 +13,7 @@ final class ProjectController extends AbstractController
     #[Route('/', name: 'app_project')]
     public function index(ProjectRepository $repository): Response
     {
-        $projects = $repository->findAll();
+        $projects = $repository->findBy(['archive' => '0']);
         return $this->render('project/index.html.twig', [
             'projects' => $projects,
         ]);
@@ -22,6 +23,7 @@ final class ProjectController extends AbstractController
     public function show(int $id, ProjectRepository $repository): Response
     {
         $project = $repository->find($id);
+        dd($project);
         return $this->render('project/project.html.twig', [
             'project' => $project,
         ]);
@@ -36,11 +38,17 @@ final class ProjectController extends AbstractController
     }
 
     #[Route('/suppression-projet/{id}', name: 'app_delete_project')]
-    public function delete(int $id): Response
+    public function delete(int $id, ProjectRepository $repository, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('project/project.html.twig', [
+        $project = $repository->find($id);
+        if(!$project) {
+            return $this->redirectToRoute('app_project');
+        }
 
-        ]);
+        $entityManager->remove($project);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_project');
     }
 
     #[Route('/nouveau-projet', name: 'app_add_project')]
