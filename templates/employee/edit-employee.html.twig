@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ employee.firstname }} {{ employee.lastname }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+
+<main>
+    <header>
+        <div id="current-user"></div>
+        <div id="title-page">
+            <h1>{{ employee.firstname }} {{ employee.lastname }} </h1>
+        </div>
+    </header>
+    <div id="content">
+        {{ form_start(form) }}
+        <div>
+            {{ form_label(form.firstname) }}
+            {{ form_widget(form.firstname) }}
+            {{ form_errors(form.firstname) }}
+        </div>
+        <div>
+            {{ form_label(form.lastname) }}
+            {{ form_widget(form.lastname) }}
+            {{ form_errors(form.lastname) }}
+        </div>
+        <div>
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email) }}
+            {{ form_errors(form.email) }}
+        </div>
+        <div class="form-flex">
+            <div>
+                {{ form_label(form.arrival_date) }}
+                {{ form_widget(form.arrival_date) }}
+                {{ form_errors(form.arrival_date) }}
+            </div>
+            <div>
+                {{ form_label(form.contract) }}
+                {{ form_widget(form.contract) }}
+                {{ form_errors(form.contract) }}
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</main>
+{% endblock %}
