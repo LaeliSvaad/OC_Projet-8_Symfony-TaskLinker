@@ -20,12 +20,12 @@ class EmployeeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstname',TextType::class, ['label' => 'Nom',
+            ->add('firstname',TextType::class, ['label' => 'Prénom',
         'attr' => [
             'id' => 'firstname',
             'name' => 'firstname',
         ],])
-            ->add('lastname', TextType::class, ['label' => 'Prénom',
+            ->add('lastname', TextType::class, ['label' => 'Nom',
                 'attr' => [
                     'id' => 'lastname',
                     'name' => 'lastname',

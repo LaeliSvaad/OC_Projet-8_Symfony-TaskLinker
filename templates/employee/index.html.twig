@@ -26,7 +26,7 @@
                     <td>
                         <div class="employee-infos">
                             <div class="employee-avatar">
-                                ND
+                                {{ employee.firstname|first|upper }} {{ employee.lastname|first|upper }}
                             </div>
                             <div class="employee-coords">
                                 <strong>{{ employee.firstname }} {{ employee.lastname }}</strong>
