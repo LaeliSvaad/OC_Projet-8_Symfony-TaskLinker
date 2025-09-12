@@ -45,7 +45,7 @@ final class ProjectController extends AbstractController
             return $this->redirectToRoute('app_project');
         }
 
-        $entityManager->remove($project);
+        $project->setArchive(1);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_project');
