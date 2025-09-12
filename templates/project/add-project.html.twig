@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau projet - {{ parent() }}{% endblock %}
+
+{% block body %}
+    <header>
+        <div id="current-user"></div>
+        <div id="title-page">
+            <h1>Nouveau projet</h1>
+        </div>
+    </header>
+    <div id="content">
+        <div>
+{#            {{ form_label(form.name) }}#}
+{#            {{ form_widget(form.name) }}#}
+{#            {{ form_errors(form.name) }}#}
+        </div>
+        <div>
+{#            {{ form_label(form.employees) }}#}
+{#            {{ form_widget(form.employees) }}#}
+{#            {{ form_errors(form.employees) }}#}
+        </div>
+    </div>
+{% endblock %}

@@ -43,4 +43,12 @@ final class ProjectController extends AbstractController
         ]);
     }
 
+    #[Route('/nouveau-projet', name: 'app_add_project')]
+    public function add(): Response
+    {
+        return $this->render('project/add-project.html.twig', [
+
+        ]);
+    }
+
 }

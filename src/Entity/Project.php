@@ -27,9 +27,16 @@ class Project
     #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'project', orphanRemoval: true)]
     private Collection $tasks;
 
+    /**
+     * @var Collection<int, Employee>
+     */
+    #[ORM\ManyToMany(targetEntity: Employee::class)]
+    private Collection $Employee;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
+        $this->Employee = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -87,6 +94,30 @@ class Project
                 $task->setProject(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Employee>
+     */
+    public function getEmployee(): Collection
+    {
+        return $this->Employee;
+    }
+
+    public function addEmployee(Employee $employee): static
+    {
+        if (!$this->Employee->contains($employee)) {
+            $this->Employee->add($employee);
+        }
+
+        return $this;
+    }
+
+    public function removeEmployee(Employee $employee): static
+    {
+        $this->Employee->removeElement($employee);
 
         return $this;
     }
