@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Task;
+use App\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,6 +17,22 @@ class TaskRepository extends ServiceEntityRepository
         parent::__construct($registry, Task::class);
     }
 
+    public function findByTaskOrderByStatus(Project $project): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.project = :project')
+            ->setParameter('project', $project)
+            ->addSelect(
+                "CASE
+                WHEN t.status = 'todo' THEN 1
+                WHEN t.status = 'doing' THEN 2
+                WHEN t.status = 'done' THEN 3
+                ELSE 4
+             END AS HIDDEN statusOrder"
+            )
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Task[] Returns an array of Task objects
 //     */

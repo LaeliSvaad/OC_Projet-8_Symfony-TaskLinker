@@ -2,4 +2,46 @@
 
 {% block title %}{{ project.name }} - {{ parent() }}{% endblock %}
 
-{% block body %}{{ project.name }} {% endblock %}
+{% block body %}
+<main>
+    <header>
+        <div id="title-page">
+            <div class="flex-header">
+                <h1>{{ project.name }}</h1>
+                <div class="user-list">
+                    {% for employee in project.employee %}
+                    <div class="avatar">{{ employee.firstname|first|upper }} {{ employee.lastname|first|upper }}</div>
+                    {% else %}
+                        <p>Aucune employé trouvé.</p>
+                    {% endfor %}
+                </div>
+                <a class="button" href="projet-edit.html">Modifier</a>
+            </div>
+        </div>
+    </header>
+    <div id="content">
+        <div id="tasks-container">
+            {% for status in ['ToDo', 'Doing', 'Done'] %}
+            <div  class="task-column">
+                <h2>{{ status }}</h2>
+                    {% for task in groupedTasks[status] %}
+                    <div class="tasks-list">
+                        <a class="task" href="tache.html">
+                            <h3>{{ task.name }}</h3>
+                            <p>{{ task.description }}</p>
+                            <div class="task-infos">
+                                <div class="task-deadline">
+                                    <i class="fa-regular fa-calendar"></i> {{ task.deadline|date('d/m/Y') }}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% else %}
+                    <em>Aucune</em>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+{% endblock %}
