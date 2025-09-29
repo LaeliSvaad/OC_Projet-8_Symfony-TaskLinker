@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Enum\ProjectStatus;
 use App\Repository\ProjectRepository;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,22 +22,22 @@ final class ProjectController extends AbstractController
     }
 
     #[Route('/projet/{id}', name: 'app_show_project')]
-    public function show(int $id, ProjectRepository $repository, TaskRepository $taskRepository): Response
+    public function show(int $id,
+                         ProjectRepository $projectRepository,
+                         TaskRepository $taskRepository): Response
     {
-        $project = $repository->find($id);
+        $project = $projectRepository->find($id);
 
-        $tasks = $taskRepository->findByTaskOrderByStatus($project);
+        $tasks = $taskRepository->findBy(['project' => $project]);
 
-        $groupedTasks = [
-            'ToDo' => [],
-            'Doing' => [],
-            'Done' => []
-        ];
+        foreach (ProjectStatus::cases() as $case) {
+            $groupedTasks[$case->getLabel()] = [];
+        }
+
 
         foreach ($tasks as $task) {
             $groupedTasks[$task->getStatus()->getLabel()][] = $task;
         }
-
 
         return $this->render('project/project.html.twig', [
             'project' => $project,

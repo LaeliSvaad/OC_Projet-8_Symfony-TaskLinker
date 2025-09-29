@@ -32,6 +32,10 @@ class AppFixtures extends Fixture
             $project = new Project();
             $project->setName($row['name']);
             $project->setArchive($row['archive']);
+
+            foreach ($row['employees'] as $employee) {
+                $project->addEmployee($this->getReference($employee, Employee::class));
+            }
             $manager->persist($project);
 
             $this->addReference('project_' . strtolower($row['name']), $project);

@@ -16,7 +16,7 @@ enum ProjectStatus: string
 
         return match ($this) {
 
-            self::Todo => 'ToDo',
+            self::Todo => 'To Do',
 
             self::Doing => 'Doing',
 
