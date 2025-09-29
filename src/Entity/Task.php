@@ -32,6 +32,7 @@ class Task
     private ?Project $project = null;
 
     #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Employee $employee = null;
 
     public function getId(): ?int
