@@ -3,6 +3,7 @@
 {% block title %}Nouveau projet - {{ parent() }}{% endblock %}
 
 {% block body %}
+<main>
     <header>
         <div id="current-user"></div>
         <div id="title-page">
@@ -10,15 +11,22 @@
         </div>
     </header>
     <div id="content">
-        <div>
-{#            {{ form_label(form.name) }}#}
-{#            {{ form_widget(form.name) }}#}
-{#            {{ form_errors(form.name) }}#}
-        </div>
-        <div>
-{#            {{ form_label(form.employees) }}#}
-{#            {{ form_widget(form.employees) }}#}
-{#            {{ form_errors(form.employees) }}#}
-        </div>
+        {{ form_start(form) }}
+            <div>
+                {{ form_label(form.name) }}
+                {{ form_widget(form.name) }}
+                {{ form_errors(form.name) }}
+            </div>
+            <div>
+                {{ form_label(form.employees) }}
+                {{ form_widget(form.employees) }}
+                {{ form_errors(form.employees) }}
+            </div>
+            <div>
+                {{ form_label(form.submit) }}
+                {{ form_widget(form.submit) }}
+            </div>
+        {{ form_end(form) }}
     </div>
+</main>
 {% endblock %}

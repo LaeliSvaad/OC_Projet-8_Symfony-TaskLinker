@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Enum\ProjectStatus;
+use App\Entity\Project;
+use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -70,8 +72,12 @@ final class ProjectController extends AbstractController
     #[Route('/nouveau-projet', name: 'app_add_project')]
     public function add(): Response
     {
-        return $this->render('project/add-project.html.twig', [
+        $project = new Project();
 
+        $form = $this->createForm(ProjectType::class, $project);
+
+        return $this->render('project/add-project.html.twig', [
+            'form' => $form,
         ]);
     }
 
