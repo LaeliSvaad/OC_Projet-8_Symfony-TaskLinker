@@ -31,7 +31,8 @@ final class ProjectController extends AbstractController
     {
         $project = $projectRepository->find($id);
 
-        $tasks = $taskRepository->findBy(['project' => $project]);
+        //$tasks = $taskRepository->findBy(['project' => $project]);
+        $tasks = $taskRepository->findByProjectWithTaskEmployee(['project' => $project]);
 
         foreach (ProjectStatus::cases() as $case) {
             $groupedTasks[$case->getLabel()] = [];

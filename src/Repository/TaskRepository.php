@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Task;
-use App\Entity\Project;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,7 +15,17 @@ class TaskRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Task::class);
     }
-
+    /**
+    //     * @return Task[] Returns an array of Task objects
+    //     */
+    public function findByProjectWithTaskEmployee($project): array
+   {
+        return $this->createQueryBuilder('t')
+        ->addSelect('e')
+        ->leftjoin('t.employee', 'e')
+        ->where('t.project = :project')
+        ->setParameter('project', $project)->getQuery()->getResult();
+   }
 //    /**
 //     * @return Task[] Returns an array of Task objects
 //     */

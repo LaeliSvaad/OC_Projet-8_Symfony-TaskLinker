@@ -28,12 +28,24 @@
                     <div class="tasks-list">
                         <a class="task" href="tache.html">
                             <h3>{{ task.name }}</h3>
+                            {% if task.description %}
                             <p>{{ task.description }}</p>
+                            {% endif %}
                             <div class="task-infos">
+                                {% if task.deadline %}
                                 <div class="task-deadline">
                                     <i class="fa-regular fa-calendar"></i> {{ task.deadline|date('d/m/Y') }}
                                 </div>
+                                {% endif %}
+                                {% if task.employee %}
+                                    <div class="mini-user">
+                                        {{ task.employee.firstname|first|upper }} {{ task.employee.lastname|first|upper }}
+                                    </div>
+                                {% endif %}
                             </div>
+                        </a>
+                        <a href="tache-add.html" class="task-add">
+                            + Ajouter une tâche
                         </a>
                     </div>
                 {% else %}
