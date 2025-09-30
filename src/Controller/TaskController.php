@@ -14,7 +14,24 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class TaskController extends AbstractController
 {
-    #[Route('/edition-projet/{id}', name: 'app_edit_task')]
+    #[Route('/nouvelle-tache/', name: 'app_add_task')]
+    public function add(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $task = new Task();
+        $form = $this->createForm(TaskType::class, $task);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($task);
+            $entityManager->flush();
+            return $this->redirectToRoute('app_show_project', ['id' => $task->getProject()->getId()]);
+        }
+
+        return $this->render('task/add-task.html.twig', [
+            'form' => $form,
+            'task' => $task,
+        ]);
+    }
+    #[Route('/edition-tache/{id}', name: 'app_edit_task')]
     public function edit(int $id, TaskRepository $repository, EntityManagerInterface $entityManager, Request $request): Response
     {
         $task = $repository->find($id);
@@ -30,5 +47,13 @@ final class TaskController extends AbstractController
             'form' => $form,
             'task' => $task,
         ]);
+    }
+    #[Route('/suppression-tache/{id}', name: 'app_delete_task')]
+    public function delete(int $id, TaskRepository $repository, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $task = $repository->find($id);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_show_project', ['id' => $task->getProject()->getId()]);
+
     }
 }

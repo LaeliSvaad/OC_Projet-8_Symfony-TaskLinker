@@ -30,8 +30,6 @@ final class ProjectController extends AbstractController
                          TaskRepository $taskRepository): Response
     {
         $project = $projectRepository->find($id);
-
-        //$tasks = $taskRepository->findBy(['project' => $project]);
         $tasks = $taskRepository->findByProjectWithTaskEmployee(['project' => $project]);
 
         foreach (ProjectStatus::cases() as $case) {

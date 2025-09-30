@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle tâche - {{ parent() }}{% endblock %}
+
+{% block body %}
+<main>
+    <header>
+        <div id="current-user"></div>
+        <div id="title-page">
+            <h1>Créer une tâche</h1>
+        </div>
+    </header>
+    <div id="content">
+        {{ form_start(form) }}
+            <div>
+                {{ form_label(form.name) }}
+                {{ form_widget(form.name) }}
+                {{ form_errors(form.name) }}
+            </div>
+            <div>
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description) }}
+                {{ form_errors(form.description) }}
+            </div>
+            <div class="flex-form">
+                <div>
+                    {{ form_label(form.deadline) }}
+                    {{ form_widget(form.deadline) }}
+                    {{ form_errors(form.deadline) }}
+                </div>
+                <div>
+                    {{ form_label(form.status) }}
+                    {{ form_widget(form.status) }}
+                    {{ form_errors(form.status) }}
+                </div>
+            </div>
+            <div>
+                {{ form_label(form.employee) }}
+                {{ form_widget(form.employee) }}
+                {{ form_errors(form.employee) }}
+            </div>
+            <br>
+            {{ form_widget(form.submit) }}
+        {{ form_end(form) }}
+    </div>
+</main>
+{% endblock %}
