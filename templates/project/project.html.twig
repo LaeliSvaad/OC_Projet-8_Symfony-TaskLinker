@@ -26,7 +26,7 @@
                 <h2>{{ status }}</h2>
                     {% for task in groupedTasks[status] %}
                     <div class="tasks-list">
-                        <a class="task" href="tache.html">
+                        <a class="task" href="{{ path('app_edit_task', {'id': task.id}) }}">
                             <h3>{{ task.name }}</h3>
                             {% if task.description %}
                             <p>{{ task.description }}</p>
@@ -44,7 +44,7 @@
                                 {% endif %}
                             </div>
                         </a>
-                        <a href="tache-add.html" class="task-add">
+                        <a href="{{ path('app_add_task') }}" class="task-add">
                             + Ajouter une tâche
                         </a>
                     </div>
