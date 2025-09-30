@@ -32,7 +32,6 @@ final class EmployeeController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
             return $this->redirectToRoute('app_team');
         }
 
