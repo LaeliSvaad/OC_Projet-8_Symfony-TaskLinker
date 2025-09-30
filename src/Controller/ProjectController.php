@@ -48,28 +48,6 @@ final class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/edition-projet/{id}', name: 'app_edit_project')]
-    public function edit(int $id): Response
-    {
-        return $this->render('project/project.html.twig', [
-
-        ]);
-    }
-
-    #[Route('/suppression-projet/{id}', name: 'app_delete_project')]
-    public function delete(int $id, ProjectRepository $repository, EntityManagerInterface $entityManager): Response
-    {
-        $project = $repository->find($id);
-        if(!$project) {
-            return $this->redirectToRoute('app_project');
-        }
-
-        $project->setArchive(1);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_project');
-    }
-
     #[Route('/nouveau-projet', name: 'app_add_project')]
     public function add(EntityManagerInterface $entityManager, Request $request): Response
     {
@@ -90,4 +68,35 @@ final class ProjectController extends AbstractController
         ]);
     }
 
+    #[Route('/edition-projet/{id}', name: 'app_edit_project')]
+    public function edit(int $id, ProjectRepository $repository, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $project = $repository->find($id);
+        $form = $this->createForm(ProjectType::class, $project);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            return $this->redirectToRoute('app_show_project', ['id' => $project->getId()]);
+        }
+
+        return $this->render('project/edit-project.html.twig', [
+            'form' => $form,
+            'project' => $project,
+        ]);
+    }
+
+    #[Route('/suppression-projet/{id}', name: 'app_delete_project')]
+    public function delete(int $id, ProjectRepository $repository, EntityManagerInterface $entityManager): Response
+    {
+        $project = $repository->find($id);
+        if(!$project) {
+            return $this->redirectToRoute('app_project');
+        }
+
+        $project->setArchive(1);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_project');
+    }
 }
