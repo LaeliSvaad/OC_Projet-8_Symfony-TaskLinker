@@ -4,7 +4,6 @@ namespace App\Controller;
 
 
 use App\Entity\Task;
-use App\Entity\Project;
 use App\Enum\ProjectStatus;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
@@ -40,9 +39,8 @@ final class TaskController extends AbstractController
     }
 
     #[Route('/edition-tache/{id}', name: 'app_edit_task')]
-    public function edit(int $id, TaskRepository $repository, EntityManagerInterface $entityManager, Request $request): Response
+    public function edit(Task $task, TaskRepository $repository, EntityManagerInterface $entityManager, Request $request): Response
     {
-        $task = $repository->find($id);
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
@@ -57,11 +55,17 @@ final class TaskController extends AbstractController
         ]);
     }
     #[Route('/suppression-tache/{id}', name: 'app_delete_task')]
-    public function delete(int $id, TaskRepository $repository, EntityManagerInterface $entityManager, Request $request): Response
+    public function delete(Task $task, TaskRepository $repository, EntityManagerInterface $entityManager, Request $request): Response
     {
-        $task = $repository->find($id);
-        $entityManager->flush();
-        return $this->redirectToRoute('app_show_project', ['id' => $task->getProject()->getId()]);
+        // Vérifie le token CSRF
+        if ($this->isCsrfTokenValid('delete' . $task->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($task);
+            $entityManager->flush();
+            $this->addFlash('success', 'Tâche supprimée avec succès.');
+        } else {
+            $this->addFlash('error', 'Token CSRF invalide.');
+        }
 
+        return $this->redirectToRoute('app_show_project', ['id' => $task->getProject()->getId()]); // adapte à ta route liste
     }
 }
