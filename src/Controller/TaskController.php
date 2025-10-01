@@ -4,8 +4,11 @@ namespace App\Controller;
 
 
 use App\Entity\Task;
+use App\Entity\Project;
+use App\Enum\ProjectStatus;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
+use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,10 +17,15 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class TaskController extends AbstractController
 {
-    #[Route('/nouvelle-tache/', name: 'app_add_task')]
-    public function add(EntityManagerInterface $entityManager, Request $request): Response
+    #[Route('/nouvelle-tache/{status}/{id}', name: 'app_add_task')]
+    public function add(ProjectStatus $status, EntityManagerInterface $entityManager, ProjectRepository $projectRepository, Request $request): Response
     {
         $task = new Task();
+        $task->setStatus($status);
+        $project = $projectRepository->find($request->get('id'));
+        $task->setProject($project);
+
+        dd($task);
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
@@ -31,6 +39,7 @@ final class TaskController extends AbstractController
             'task' => $task,
         ]);
     }
+
     #[Route('/edition-tache/{id}', name: 'app_edit_task')]
     public function edit(int $id, TaskRepository $repository, EntityManagerInterface $entityManager, Request $request): Response
     {

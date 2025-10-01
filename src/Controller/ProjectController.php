@@ -33,12 +33,15 @@ final class ProjectController extends AbstractController
         $tasks = $taskRepository->findByProjectWithTaskEmployee(['project' => $project]);
 
         foreach (ProjectStatus::cases() as $case) {
-            $groupedTasks[$case->getLabel()] = [];
+            $groupedTasks[$case->value]  =
+                [
+                    'label' => $case->getLabel(),
+                    'tasks' => []
+                ];
         }
 
-
         foreach ($tasks as $task) {
-            $groupedTasks[$task->getStatus()->getLabel()][] = $task;
+            $groupedTasks[$task->getStatus()->value]['tasks'][] = $task;
         }
 
         return $this->render('project/project.html.twig', [
