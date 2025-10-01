@@ -25,7 +25,6 @@ final class TaskController extends AbstractController
         $project = $projectRepository->find($request->get('id'));
         $task->setProject($project);
 
-        dd($task);
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {

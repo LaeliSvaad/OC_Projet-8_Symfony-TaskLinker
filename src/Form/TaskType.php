@@ -3,8 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Employee;
-use App\Entity\Project;
 use App\Entity\Task;
+use App\Entity\Project;
 use App\Enum\ProjectStatus;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -26,11 +26,11 @@ class TaskType extends AbstractType
                     'id' => 'name',
                     'name' => 'name',
             ],])
-            ->add('description', TextareaType::class, ['label' => 'Description', 'attr' => [
+            ->add('description', TextareaType::class, ['label' => 'Description', 'required' => false, 'attr' => [
                 'id' => 'description',
                 'name' => 'description',
             ],])
-            ->add('deadline', DateType::class, ['label' => 'Date', 'attr' => [
+            ->add('deadline', DateType::class, ['label' => 'Date', 'required' => false, 'attr' => [
                 'id' => 'deadline',
                 'name' => 'deadline',
             ],] )
@@ -44,9 +44,10 @@ class TaskType extends AbstractType
                 ],])
             ->add('employee', EntityType::class, [
                 'class' => Employee::class,
-                'choice_label' => function(Employee $employee) {
-                    return $employee->getFirstname() . ' ' . $employee->getLastname();
-                },
+                'choices' => $options['data']->getProject()->getEmployees(),
+                'choice_label' => fn(Employee $e) => $e->getFirstname() . ' ' . $e->getLastname(),
+                'placeholder' => '',
+                'required' => false,
                 'attr' => [
                     'id' => 'employee',
                     'name' => 'employee',
