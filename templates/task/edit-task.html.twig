@@ -12,31 +12,37 @@
         </div>
     </header>
     <div id="content">
-        <form name="tache" method="post">
-            <div><label for="tache_titre" class="required">Titre de la tâche</label><input type="text" id="tache_titre" name="tache[titre]" required="required" /></div>
-            <div><label for="tache_description">Description</label><textarea id="tache_description" name="tache[description]"></textarea></div>
-            <div class="flex-form">
-                <div><label for="tache_deadline">Date</label><input type="date" id="tache_deadline" name="tache[deadline]" /></div>
-                <div>
-                    <label for="tache_statut" class="required">Statut</label>
-                    <select id="tache_statut" name="tache[statut]">
-                        <option value="13">To Do</option>
-                        <option value="14">Doing</option>
-                        <option value="15">Done</option>
-                    </select>
-                </div>
+        {{ form_start(form) }}
+        <div>
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+            {{ form_errors(form.name) }}
+        </div>
+        <div>
+            {{ form_label(form.description) }}
+            {{ form_widget(form.description) }}
+            {{ form_errors(form.description) }}
+        </div>
+        <div class="flex-form">
+            <div>
+                {{ form_label(form.deadline) }}
+                {{ form_widget(form.deadline) }}
+                {{ form_errors(form.deadline) }}
             </div>
             <div>
-                <label for="tache_employe">Membre</label>
-                <select id="tache_employe" name="tache[employe]">
-                    <option value=""></option>
-                    <option value="13">Natalie Dillon</option>
-                    <option value="14">Demi Baker</option>
-                </select>
+                {{ form_label(form.status) }}
+                {{ form_widget(form.status) }}
+                {{ form_errors(form.status) }}
             </div>
-            <br>
-            <button class="button button-submit">Ajouter</button>
-        </form>
+        </div>
+        <div>
+            {{ form_label(form.employee) }}
+            {{ form_widget(form.employee) }}
+            {{ form_errors(form.employee) }}
+        </div>
+        <br>
+        {{ form_widget(form.submit, { 'label': 'Modifier' }) }}
+        {{ form_end(form) }}
     </div>
 </main>
 {% endblock %}

@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Employee;
 use App\Entity\Task;
-use App\Entity\Project;
 use App\Enum\ProjectStatus;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -53,7 +52,7 @@ class TaskType extends AbstractType
                     'name' => 'employee',
                 ],
             ])
-            ->add('submit', SubmitType::class, ['label' => 'Ajouter',  'attr' => [
+            ->add('submit', SubmitType::class, ['attr' => [
                 'class' => 'button button-submit',
             ],])
         ;
