@@ -16,6 +16,23 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
+    public function removeEmployeeFromProject(Project $project, Employee $employee): void
+    {
+        // On retire l'employé du projet
+        $project->removeEmployee($employee);
+
+        // On désassigne l'employé de toutes les tâches du projet
+        foreach ($project->getTasks() as $task) {
+            if ($task->getEmployee() === $employee) {
+                $task->setEmployee(null);
+            }
+        }
+
+        // Persistance
+        $this->em->persist($project);
+        $this->em->flush();
+    }
+
 //    /**
 //     * @return Project[] Returns an array of Project objects
 //     */
